@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "slug", "concepts", "minutes", "targets", "explanation", "starter", "tests", "solution"],
+  "properties": {
+    "title": { "type": "string", "description": "Short title, e.g. 'Copies that don't share state'" },
+    "slug": { "type": "string", "description": "2-4 lowercase words joined by hyphens" },
+    "concepts": { "type": "array", "items": { "type": "string" } },
+    "minutes": { "type": "integer" },
+    "targets": { "type": "string" },
+    "explanation": { "type": "string" },
+    "starter": { "type": "string" },
+    "tests": { "type": "string" },
+    "solution": { "type": "string" }
+  }
+}

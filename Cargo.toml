@@ -1,0 +1,5 @@
+[workspace]
+resolver = "2"
+members = ["app", "lessons/*"]
+# `cargo test` at the root tests the app only; lesson tests fail until you solve them.
+default-members = ["app"]

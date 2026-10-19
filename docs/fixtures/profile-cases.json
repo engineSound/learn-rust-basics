@@ -1,0 +1,1350 @@
+{
+ "_comment": "Shared by learn-nodejs and learn-rust: for every case, buildProfile(\"demo\", lessons, events, now) must equal expected exactly. The first case must also render to profile-expected.md.",
+ "cases": [
+  {
+   "name": "struggle-then-drill",
+   "now": "2026-10-04T21:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-a-drill",
+     "title": "Alpha drill",
+     "concepts": [
+      "x"
+     ],
+     "kind": "drill",
+     "for": "demo-a"
+    },
+    {
+     "id": "demo-b",
+     "title": "Beta",
+     "concepts": [
+      "y",
+      "z"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-b-drill",
+     "title": "Beta drill",
+     "concepts": [
+      "z"
+     ],
+     "kind": "drill",
+     "for": "demo-b"
+    },
+    {
+     "id": "demo-c",
+     "title": "Gamma",
+     "concepts": [
+      "w"
+     ],
+     "kind": "core",
+     "for": null
+    }
+   ],
+   "events": [
+    {
+     "ts": "2026-10-01T09:00:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "lesson_open",
+     "duration_ms": null,
+     "payload": null
+    },
+    {
+     "ts": "2026-10-01T09:01:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failing": [],
+      "errors": [
+       "E0308"
+      ],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:05:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:06:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "feedback",
+     "duration_ms": null,
+     "payload": {
+      "difficulty": "right"
+     }
+    },
+    {
+     "ts": "2026-10-01T09:10:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-b",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 0,
+      "failed": 0,
+      "total": 0,
+      "failing": [],
+      "errors": [
+       "E0308"
+      ],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:12:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-b",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failing": [
+       "parses input"
+      ],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:15:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-b",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 1,
+      "failed": 1,
+      "total": 2,
+      "failing": [
+       "parses input"
+      ],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-02T20:00:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a-drill",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-04T08:00:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-b",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-04T08:01:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-b",
+     "concept": null,
+     "kind": "feedback",
+     "duration_ms": null,
+     "payload": {
+      "difficulty": "hard"
+     }
+    }
+   ],
+   "expected": {
+    "generated_at": "2026-10-04T21:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 3,
+     "streak_days": 1,
+     "minutes_total": 16,
+     "last_ts": "2026-10-04T08:01:00.000Z"
+    },
+    "pace": {
+     "median_runs_to_solve": 3,
+     "feedback": {
+      "easy": 0,
+      "right": 1,
+      "hard": 1
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "solved",
+      "runs": 2,
+      "first_pass_run": 2,
+      "feedback": "right",
+      "review_step": 1,
+      "due": "2026-10-05T20:00:00.000Z",
+      "due_now": false
+     },
+     {
+      "id": "demo-a-drill",
+      "title": "Alpha drill",
+      "kind": "drill",
+      "for": "demo-a",
+      "status": "solved",
+      "runs": 1,
+      "first_pass_run": 1,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-b",
+      "title": "Beta",
+      "kind": "core",
+      "for": null,
+      "status": "solved",
+      "runs": 4,
+      "first_pass_run": 4,
+      "feedback": "hard",
+      "review_step": 0,
+      "due": "2026-10-05T08:00:00.000Z",
+      "due_now": false
+     },
+     {
+      "id": "demo-b-drill",
+      "title": "Beta drill",
+      "kind": "drill",
+      "for": "demo-b",
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-c",
+      "title": "Gamma",
+      "kind": "core",
+      "for": null,
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-a-drill"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": 0.6,
+      "lessons": [
+       "demo-a",
+       "demo-b"
+      ]
+     },
+     {
+      "name": "z",
+      "mastery": 0.5,
+      "lessons": [
+       "demo-b",
+       "demo-b-drill"
+      ]
+     },
+     {
+      "name": "w",
+      "mastery": null,
+      "lessons": [
+       "demo-c"
+      ]
+     }
+    ],
+    "recurring": [
+     {
+      "what": "E0308",
+      "count": 2
+     },
+     {
+      "what": "parses input",
+      "count": 2
+     }
+    ],
+    "next": {
+     "kind": "drill",
+     "lesson_id": "demo-b-drill",
+     "title": "Beta drill",
+     "reason": "extra practice: \"Beta\" was hard"
+    }
+   }
+  },
+  {
+   "name": "review-via-drill",
+   "now": "2026-10-03T12:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-a-drill",
+     "title": "Alpha drill",
+     "concepts": [
+      "x"
+     ],
+     "kind": "drill",
+     "for": "demo-a"
+    },
+    {
+     "id": "demo-b",
+     "title": "Beta",
+     "concepts": [
+      "y",
+      "z"
+     ],
+     "kind": "core",
+     "for": null
+    }
+   ],
+   "events": [
+    {
+     "ts": "2026-10-01T09:05:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    }
+   ],
+   "expected": {
+    "generated_at": "2026-10-03T12:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 1,
+     "streak_days": 0,
+     "minutes_total": 0,
+     "last_ts": "2026-10-01T09:05:00.000Z"
+    },
+    "pace": {
+     "median_runs_to_solve": 1,
+     "feedback": {
+      "easy": 0,
+      "right": 0,
+      "hard": 0
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "solved",
+      "runs": 1,
+      "first_pass_run": 1,
+      "feedback": null,
+      "review_step": 0,
+      "due": "2026-10-02T09:05:00.000Z",
+      "due_now": true
+     },
+     {
+      "id": "demo-a-drill",
+      "title": "Alpha drill",
+      "kind": "drill",
+      "for": "demo-a",
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-b",
+      "title": "Beta",
+      "kind": "core",
+      "for": null,
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-a-drill"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-b"
+      ]
+     },
+     {
+      "name": "z",
+      "mastery": null,
+      "lessons": [
+       "demo-b"
+      ]
+     }
+    ],
+    "recurring": [],
+    "next": {
+     "kind": "review",
+     "lesson_id": "demo-a-drill",
+     "title": "Alpha drill",
+     "reason": "review of \"Alpha\", due since 2026-10-02"
+    }
+   }
+  },
+  {
+   "name": "review-without-drill",
+   "now": "2026-10-03T12:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-b",
+     "title": "Beta",
+     "concepts": [
+      "y",
+      "z"
+     ],
+     "kind": "core",
+     "for": null
+    }
+   ],
+   "events": [
+    {
+     "ts": "2026-10-01T09:05:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    }
+   ],
+   "expected": {
+    "generated_at": "2026-10-03T12:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 1,
+     "streak_days": 0,
+     "minutes_total": 0,
+     "last_ts": "2026-10-01T09:05:00.000Z"
+    },
+    "pace": {
+     "median_runs_to_solve": 1,
+     "feedback": {
+      "easy": 0,
+      "right": 0,
+      "hard": 0
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "solved",
+      "runs": 1,
+      "first_pass_run": 1,
+      "feedback": null,
+      "review_step": 0,
+      "due": "2026-10-02T09:05:00.000Z",
+      "due_now": true
+     },
+     {
+      "id": "demo-b",
+      "title": "Beta",
+      "kind": "core",
+      "for": null,
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-b"
+      ]
+     },
+     {
+      "name": "z",
+      "mastery": null,
+      "lessons": [
+       "demo-b"
+      ]
+     }
+    ],
+    "recurring": [],
+    "next": {
+     "kind": "review",
+     "lesson_id": "demo-a",
+     "title": "Alpha",
+     "reason": "due since 2026-10-02"
+    }
+   }
+  },
+  {
+   "name": "easy-then-stretch",
+   "now": "2026-10-01T12:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-a-stretch",
+     "title": "Alpha stretch",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "stretch",
+     "for": "demo-a"
+    },
+    {
+     "id": "demo-b",
+     "title": "Beta",
+     "concepts": [
+      "y",
+      "z"
+     ],
+     "kind": "core",
+     "for": null
+    }
+   ],
+   "events": [
+    {
+     "ts": "2026-10-01T09:05:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:06:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "feedback",
+     "duration_ms": null,
+     "payload": {
+      "difficulty": "easy"
+     }
+    }
+   ],
+   "expected": {
+    "generated_at": "2026-10-01T12:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 1,
+     "streak_days": 1,
+     "minutes_total": 1,
+     "last_ts": "2026-10-01T09:06:00.000Z"
+    },
+    "pace": {
+     "median_runs_to_solve": 1,
+     "feedback": {
+      "easy": 1,
+      "right": 0,
+      "hard": 0
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "solved",
+      "runs": 1,
+      "first_pass_run": 1,
+      "feedback": "easy",
+      "review_step": 0,
+      "due": "2026-10-02T09:05:00.000Z",
+      "due_now": false
+     },
+     {
+      "id": "demo-a-stretch",
+      "title": "Alpha stretch",
+      "kind": "stretch",
+      "for": "demo-a",
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-b",
+      "title": "Beta",
+      "kind": "core",
+      "for": null,
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-a-stretch"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-a-stretch",
+       "demo-b"
+      ]
+     },
+     {
+      "name": "z",
+      "mastery": null,
+      "lessons": [
+       "demo-b"
+      ]
+     }
+    ],
+    "recurring": [],
+    "next": {
+     "kind": "stretch",
+     "lesson_id": "demo-a-stretch",
+     "title": "Alpha stretch",
+     "reason": "\"Alpha\" was easy, so here's a harder one"
+    }
+   }
+  },
+  {
+   "name": "warm-up-after-three-runs",
+   "now": "2026-10-01T12:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-a-drill",
+     "title": "Alpha drill",
+     "concepts": [
+      "x"
+     ],
+     "kind": "drill",
+     "for": "demo-a"
+    }
+   ],
+   "events": [
+    {
+     "ts": "2026-10-01T09:00:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "failing": [
+       "t"
+      ],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:01:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "failing": [
+       "t"
+      ],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:02:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "failing": [
+       "t"
+      ],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    }
+   ],
+   "expected": {
+    "generated_at": "2026-10-01T12:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 1,
+     "streak_days": 1,
+     "minutes_total": 2,
+     "last_ts": "2026-10-01T09:02:00.000Z"
+    },
+    "pace": {
+     "median_runs_to_solve": null,
+     "feedback": {
+      "easy": 0,
+      "right": 0,
+      "hard": 0
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "started",
+      "runs": 3,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-a-drill",
+      "title": "Alpha drill",
+      "kind": "drill",
+      "for": "demo-a",
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": 0.2,
+      "lessons": [
+       "demo-a",
+       "demo-a-drill"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": 0.2,
+      "lessons": [
+       "demo-a"
+      ]
+     }
+    ],
+    "recurring": [
+     {
+      "what": "t",
+      "count": 3
+     }
+    ],
+    "next": {
+     "kind": "drill",
+     "lesson_id": "demo-a-drill",
+     "title": "Alpha drill",
+     "reason": "warm-up: \"Alpha\" has taken 3 runs so far"
+    }
+   }
+  },
+  {
+   "name": "moved-on-no-drill",
+   "now": "2026-10-01T12:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-a-drill",
+     "title": "Alpha drill",
+     "concepts": [
+      "x"
+     ],
+     "kind": "drill",
+     "for": "demo-a"
+    },
+    {
+     "id": "demo-b",
+     "title": "Beta",
+     "concepts": [
+      "y",
+      "z"
+     ],
+     "kind": "core",
+     "for": null
+    }
+   ],
+   "events": [
+    {
+     "ts": "2026-10-01T09:05:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    },
+    {
+     "ts": "2026-10-01T09:06:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "feedback",
+     "duration_ms": null,
+     "payload": {
+      "difficulty": "hard"
+     }
+    },
+    {
+     "ts": "2026-10-01T09:10:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-b",
+     "concept": null,
+     "kind": "fail",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 0,
+      "failed": 2,
+      "total": 2,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    }
+   ],
+   "expected": {
+    "generated_at": "2026-10-01T12:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 1,
+     "streak_days": 1,
+     "minutes_total": 5,
+     "last_ts": "2026-10-01T09:10:00.000Z"
+    },
+    "pace": {
+     "median_runs_to_solve": 1,
+     "feedback": {
+      "easy": 0,
+      "right": 0,
+      "hard": 1
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "solved",
+      "runs": 1,
+      "first_pass_run": 1,
+      "feedback": "hard",
+      "review_step": 0,
+      "due": "2026-10-02T09:05:00.000Z",
+      "due_now": false
+     },
+     {
+      "id": "demo-a-drill",
+      "title": "Alpha drill",
+      "kind": "drill",
+      "for": "demo-a",
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-b",
+      "title": "Beta",
+      "kind": "core",
+      "for": null,
+      "status": "started",
+      "runs": 1,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-a-drill"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": 0.45,
+      "lessons": [
+       "demo-a",
+       "demo-b"
+      ]
+     },
+     {
+      "name": "z",
+      "mastery": 0.2,
+      "lessons": [
+       "demo-b"
+      ]
+     }
+    ],
+    "recurring": [],
+    "next": {
+     "kind": "lesson",
+     "lesson_id": "demo-b",
+     "title": "Beta",
+     "reason": "in progress"
+    }
+   }
+  },
+  {
+   "name": "all-done",
+   "now": "2026-10-01T12:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-a-drill",
+     "title": "Alpha drill",
+     "concepts": [
+      "x"
+     ],
+     "kind": "drill",
+     "for": "demo-a"
+    }
+   ],
+   "events": [
+    {
+     "ts": "2026-10-01T09:05:00.000Z",
+     "track": "demo",
+     "lesson_id": "demo-a",
+     "concept": null,
+     "kind": "pass",
+     "duration_ms": 100,
+     "payload": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "failing": [],
+      "errors": [],
+      "timed_out": false,
+      "code": ""
+     }
+    }
+   ],
+   "expected": {
+    "generated_at": "2026-10-01T12:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 1,
+     "streak_days": 1,
+     "minutes_total": 0,
+     "last_ts": "2026-10-01T09:05:00.000Z"
+    },
+    "pace": {
+     "median_runs_to_solve": 1,
+     "feedback": {
+      "easy": 0,
+      "right": 0,
+      "hard": 0
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "solved",
+      "runs": 1,
+      "first_pass_run": 1,
+      "feedback": null,
+      "review_step": 0,
+      "due": "2026-10-02T09:05:00.000Z",
+      "due_now": false
+     },
+     {
+      "id": "demo-a-drill",
+      "title": "Alpha drill",
+      "kind": "drill",
+      "for": "demo-a",
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a",
+       "demo-a-drill"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": 0.7,
+      "lessons": [
+       "demo-a"
+      ]
+     }
+    ],
+    "recurring": [],
+    "next": {
+     "kind": "done",
+     "lesson_id": null,
+     "title": null,
+     "reason": "all lessons solved; next review 2026-10-02"
+    }
+   }
+  },
+  {
+   "name": "empty",
+   "now": "2026-10-01T12:00:00.000Z",
+   "lessons": [
+    {
+     "id": "demo-a",
+     "title": "Alpha",
+     "concepts": [
+      "x",
+      "y"
+     ],
+     "kind": "core",
+     "for": null
+    },
+    {
+     "id": "demo-a-drill",
+     "title": "Alpha drill",
+     "concepts": [
+      "x"
+     ],
+     "kind": "drill",
+     "for": "demo-a"
+    },
+    {
+     "id": "demo-b",
+     "title": "Beta",
+     "concepts": [
+      "y",
+      "z"
+     ],
+     "kind": "core",
+     "for": null
+    }
+   ],
+   "events": [],
+   "expected": {
+    "generated_at": "2026-10-01T12:00:00.000Z",
+    "track": "demo",
+    "sessions": {
+     "count": 0,
+     "streak_days": 0,
+     "minutes_total": 0,
+     "last_ts": null
+    },
+    "pace": {
+     "median_runs_to_solve": null,
+     "feedback": {
+      "easy": 0,
+      "right": 0,
+      "hard": 0
+     }
+    },
+    "lessons": [
+     {
+      "id": "demo-a",
+      "title": "Alpha",
+      "kind": "core",
+      "for": null,
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-a-drill",
+      "title": "Alpha drill",
+      "kind": "drill",
+      "for": "demo-a",
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     },
+     {
+      "id": "demo-b",
+      "title": "Beta",
+      "kind": "core",
+      "for": null,
+      "status": "new",
+      "runs": 0,
+      "first_pass_run": null,
+      "feedback": null,
+      "review_step": null,
+      "due": null,
+      "due_now": false
+     }
+    ],
+    "concepts": [
+     {
+      "name": "x",
+      "mastery": null,
+      "lessons": [
+       "demo-a",
+       "demo-a-drill"
+      ]
+     },
+     {
+      "name": "y",
+      "mastery": null,
+      "lessons": [
+       "demo-a",
+       "demo-b"
+      ]
+     },
+     {
+      "name": "z",
+      "mastery": null,
+      "lessons": [
+       "demo-b"
+      ]
+     }
+    ],
+    "recurring": [],
+    "next": {
+     "kind": "lesson",
+     "lesson_id": "demo-a",
+     "title": "Alpha",
+     "reason": "next new lesson"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,4 @@
+[package]
+name = "lesson-07-struct-impl"
+version = "0.1.0"
+edition = "2021"

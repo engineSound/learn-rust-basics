@@ -1,0 +1,9 @@
+[package]
+name = "learn-app"
+version = "0.1.0"
+edition = "2021"
+description = "Personal Rust tutor web app. Standard library only, no dependencies."
+
+[[bin]]
+name = "learn"
+path = "src/main.rs"

@@ -1,0 +1,87 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "intro", "regions", "scenario", "check"],
+  "properties": {
+    "title": { "type": "string", "description": "Short title, e.g. 'What your describe() does with Offline'" },
+    "intro": { "type": "string", "description": "One sentence: what the learner is about to watch" },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "kind"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "kind": { "type": "string", "enum": ["", "output"] }
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "code", "steps"],
+      "properties": {
+        "name": { "type": "string", "description": "e.g. 'Your code with Offline { since_minutes: 5 }'" },
+        "code": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["line", "say", "rule", "error", "set", "drop", "arrows"],
+            "properties": {
+              "line": { "type": "integer", "description": "1-based line of code; 0 = none" },
+              "say": { "type": "string" },
+              "rule": { "type": "string", "description": "\"\" = none" },
+              "error": { "type": "string", "description": "\"\" = none" },
+              "set": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["id", "in", "title", "value", "tag", "sub", "state"],
+                  "properties": {
+                    "id": { "type": "string" },
+                    "in": { "type": "string", "description": "region id; \"\" keeps the box where it is" },
+                    "title": { "type": "string" },
+                    "value": { "type": "string" },
+                    "tag": { "type": "string" },
+                    "sub": { "type": "string" },
+                    "state": { "type": "string", "enum": ["", "normal", "ok", "active", "info", "bad", "moved", "faded"] }
+                  }
+                }
+              },
+              "drop": { "type": "array", "items": { "type": "string" } },
+              "arrows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["from", "to", "label", "state", "style"],
+                  "properties": {
+                    "from": { "type": "string" },
+                    "to": { "type": "string" },
+                    "label": { "type": "string" },
+                    "state": { "type": "string", "enum": ["", "ok", "accent", "muted", "bad"] },
+                    "style": { "type": "string", "enum": ["", "solid", "dashed"] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["call", "prints"],
+      "properties": {
+        "call": { "type": "string" },
+        "prints": { "type": "string" }
+      }
+    }
+  }
+}
