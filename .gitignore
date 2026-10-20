@@ -5,3 +5,6 @@ data/
 !.env.example
 *.log
 .DS_Store
+# Your own notes on the lessons. Kept out of git because this repo is public;
+# delete this line if you want them versioned (and the repo is private).
+notes/

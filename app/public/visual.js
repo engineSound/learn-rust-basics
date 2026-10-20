@@ -284,7 +284,7 @@
     el.innerHTML =
       (spec.title ? '<div class="vz-head"><h3>' + esc(spec.title) + '</h3>' + (spec.intro ? '<p>' + inline(spec.intro) + '</p>' : '') + '</div>' : '') +
       '<pre class="an-code">' + html + '</pre>' +
-      '<div class="an-detail" aria-live="polite"></div>' +
+      '<div class="an-detail" aria-live="polite"></div><div class="an-note"></div>' +
       '<div class="vz-controls"><button type="button" class="vz-btn" data-act="prev">← Back</button>' +
       '<button type="button" class="vz-btn" data-act="next">Next →</button><span class="an-count"></span></div>';
     el.tabIndex = 0;
@@ -300,6 +300,8 @@
       el.querySelector('[data-act="prev"]').disabled = cur === 0;
       el.querySelector('[data-act="next"]').disabled = cur === parts.length - 1;
       el.querySelector('.an-count').textContent = (cur + 1) + ' / ' + parts.length;
+      // The app can put the learner's note on this part into the slot (app.js, notes).
+      el.dispatchEvent(new CustomEvent('anatomy-select', { bubbles: true, detail: { text: p.text, slot: el.querySelector('.an-note') } }));
     }
     el.addEventListener('click', function (e) {
       var t = e.target.closest('[data-i], [data-act]');
@@ -308,6 +310,7 @@
       else show(cur + (t.getAttribute('data-act') === 'next' ? 1 : -1));
     });
     el.addEventListener('keydown', function (e) {
+      if (/^(TEXTAREA|INPUT)$/.test(e.target.tagName)) return; // typing a note
       if (e.key === 'ArrowRight') { show(cur + 1); e.preventDefault(); }
       if (e.key === 'ArrowLeft') { show(cur - 1); e.preventDefault(); }
     });

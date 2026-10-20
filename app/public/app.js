@@ -14,6 +14,8 @@
 //   POST /api/snippet                   ({ code }) -> { output, ok, errors, timedOut }
 //   GET  /api/profile                   -> { profile, markdown, next }
 //   GET  /api/history                   -> [event] newest first, without code
+//   GET  /api/notes                     -> [{ slug, title, notes: [{ anchor, label, text, at }] }]
+//   GET|PUT /api/notes/:slug            ({ anchor, label, text }) -> { notes }  (empty text deletes)
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
@@ -45,18 +47,20 @@
   function solved(l) { return !!(l && l.stats && l.stats.first_pass_run); }
   var KIND = { review: 'Review', drill: 'Practice', stretch: 'Challenge', lesson: 'Lesson', core: 'Lesson' };
 
-  // ---------- routing: #today, #learn/<slug>, #history, #profile ----------
+  // ---------- routing: #today, #learn/<slug>, #history, #notes, #profile ----------
   function route() {
     var hash = location.hash.replace(/^#/, '') || 'today';
     var parts = hash.split('/');
-    var view = ['today', 'learn', 'history', 'profile'].indexOf(parts[0]) >= 0 ? parts[0] : 'today';
-    ['today', 'learn', 'history', 'profile'].forEach(function (v) { $('view-' + v).hidden = v !== view; });
+    var views = ['today', 'learn', 'history', 'notes', 'profile'];
+    var view = views.indexOf(parts[0]) >= 0 ? parts[0] : 'today';
+    views.forEach(function (v) { $('view-' + v).hidden = v !== view; });
     Array.prototype.forEach.call(document.querySelectorAll('.tabs a'), function (a) {
       a.classList.toggle('active', a.getAttribute('data-view') === view);
     });
     if (view === 'today') renderToday();
     if (view === 'history') renderHistory();
     if (view === 'profile') renderProfile();
+    if (view === 'notes') renderNotes();
     if (view === 'learn') {
       var slug = parts[1] || (state.current && state.current.slug) || (state.next && state.next.slug) || load('lesson', null) || (cores()[0] || {}).slug;
       if (slug && (!state.current || state.current.slug !== slug)) openLesson(slug);
@@ -209,8 +213,13 @@
 
   function openLesson(slug) {
     store('lesson', slug);
-    return api('GET', '/api/lessons/' + encodeURIComponent(slug)).then(function (l) {
+    return Promise.all([
+      api('GET', '/api/lessons/' + encodeURIComponent(slug)),
+      api('GET', '/api/notes/' + encodeURIComponent(slug)).catch(function () { return { notes: [] }; }),
+    ]).then(function (r) {
+      var l = r[0];
       state.current = l;
+      setNotes(slug, r[1].notes);
       var meta = l.meta, s = sections(l.body), list = lessonBySlug(slug) || {};
       var c = cores(), idx = c.indexOf(lessonById(meta.kind && meta.kind !== 'core' ? meta['for'] : meta.id));
       var where = meta.kind === 'drill' ? 'Practice' : meta.kind === 'stretch' ? 'Challenge' : 'Lesson ' + (idx + 1) + ' of ' + c.length;
@@ -240,6 +249,7 @@
       state.hints = ((s.hints || '').match(/^\s*\d+\.\s+.+$/gm) || []).map(function (h) { return h.replace(/^\s*\d+\.\s+/, ''); });
       state.review = (s.review || '').trim();
       hydrate($('view-learn'));
+      mountStepNotes();
       renderStatus(l.stats);
       $('results').innerHTML = '';
       $('after').innerHTML = '';
@@ -250,6 +260,102 @@
       renderOutline();
     }).catch(function (e) { $('ls-title').textContent = 'Couldn’t open this lesson'; $('ls-idea').innerHTML = '<p>' + esc(e.message) + '</p>'; });
   }
+
+  // ---------- notes: the learner's own thoughts, next to each part of a lesson ----------
+  var notes = { slug: null, map: {} }; // anchor → text, for the open lesson
+  function setNotes(slug, list) {
+    notes.slug = slug; notes.map = {};
+    (list || []).forEach(function (n) { notes.map[n.anchor] = n.text; });
+    markTokens();
+  }
+  function markTokens() {
+    Array.prototype.forEach.call(document.querySelectorAll('#view-learn .an-tok'), function (t) {
+      t.classList.toggle('has-note', !!notes.map['token:' + t.textContent]);
+    });
+  }
+  function grow(ta) { ta.style.height = 'auto'; ta.style.height = Math.max(ta.scrollHeight + 2, 72) + 'px'; }
+  /** A note box in `slot` for one part of the lesson: closed until used, saved as you type. */
+  function mountNote(slot, anchor, label) {
+    if (!slot || !notes.slug) return;
+    var slug = notes.slug, text = notes.map[anchor] || '';
+    slot.innerHTML = '<div class="note-box' + (text ? ' open' : '') + '">' +
+      '<button type="button" class="note-add">✎ Add a note</button>' +
+      '<div class="note-label"><span>✎ Your note · ' + md(label).replace(/^<p>|<\/p>$/g, '') + '</span><span class="note-state"></span></div>' +
+      '<textarea class="note-text" placeholder="Your own words, a question, how it compares with Java…" aria-label="Your note on ' + esc(label.replace(/`/g, '')) + '"></textarea></div>';
+    var box = slot.firstChild, ta = box.querySelector('textarea'), st = box.querySelector('.note-state'), timer = null;
+    ta.value = text;
+    if (text) grow(ta);
+    function save() {
+      timer = null;
+      var value = ta.value;
+      api('PUT', '/api/notes/' + encodeURIComponent(slug), { anchor: anchor, label: label, text: value }, true).then(function (r) {
+        if (notes.slug === slug) setNotes(slug, r.notes);
+        st.textContent = value.trim() ? 'Saved' : '';
+      }).catch(function (e) { st.textContent = 'Not saved: ' + e.message; });
+    }
+    box.querySelector('.note-add').addEventListener('click', function () { box.classList.add('open'); grow(ta); ta.focus(); });
+    ta.addEventListener('input', function () { grow(ta); st.textContent = 'Saving…'; clearTimeout(timer); timer = setTimeout(save, 600); });
+    ta.addEventListener('blur', function () {
+      if (timer) { clearTimeout(timer); save(); }
+      if (!ta.value.trim()) box.classList.remove('open');
+    });
+  }
+  function mountStepNotes() {
+    Array.prototype.forEach.call(document.querySelectorAll('#view-learn .step-notes'), function (slot) {
+      var anchor = slot.getAttribute('data-anchor');
+      var label = anchor === 'idea' ? $('idea-heading').textContent : anchor === 'check' ? 'Quick check' : 'Your turn';
+      mountNote(slot, anchor, label);
+    });
+    markTokens();
+  }
+  // The anatomy view says which token is selected; show the note on that token under it.
+  document.addEventListener('anatomy-select', function (e) {
+    if (e.target.closest && e.target.closest('#view-learn')) mountNote(e.detail.slot, 'token:' + e.detail.text, '`' + e.detail.text + '`');
+  });
+
+  // Order on the Notes page: the idea, its tokens, the quick check, your turn.
+  function noteRank(n) { return n.anchor === 'idea' ? 0 : /^token:/.test(n.anchor) ? 1 : n.anchor === 'check' ? 2 : n.anchor === 'turn' ? 3 : 4; }
+  function renderNotes() {
+    var out = $('notes-list');
+    out.innerHTML = '<p class="muted">Loading…</p>';
+    api('GET', '/api/notes').then(function (all) {
+      var order = state.lessons.map(function (l) { return l.slug; });
+      all.sort(function (a, b) { return (order.indexOf(a.slug) + 1 || 999) - (order.indexOf(b.slug) + 1 || 999); });
+      all.forEach(function (lesson) { lesson.notes.sort(function (a, b) { return noteRank(a) - noteRank(b); }); });
+      state.allNotes = all;
+      drawNotes();
+    }).catch(function (e) { out.innerHTML = '<p class="bad-text">' + esc(e.message) + '</p>'; });
+  }
+  function drawNotes() {
+    var q = $('notes-filter').value.trim().toLowerCase(), all = state.allNotes || [];
+    var shown = all.map(function (l) {
+      var hits = l.notes.filter(function (n) { return !q || (n.text + ' ' + n.label + ' ' + l.title).toLowerCase().indexOf(q) >= 0; });
+      return { slug: l.slug, title: l.title, notes: hits };
+    }).filter(function (l) { return l.notes.length; });
+    if (!all.length) {
+      $('notes-list').innerHTML = '<div class="card empty"><p><b>No notes yet.</b> In any lesson, press <b>✎ Add a note</b> next to a section, or under a token in the anatomy view (say <code>println!</code>), and write what you think. It saves as you type and shows up here.</p></div>';
+      return;
+    }
+    $('notes-list').innerHTML = shown.length ? shown.map(function (l) {
+      return '<article class="card notes-lesson"><header><h2>' + esc(l.title) + '</h2><a href="#learn/' + esc(l.slug) + '" class="small">Open lesson →</a></header>' +
+        l.notes.map(function (n) {
+          return '<section class="notes-item"><div class="notes-meta"><span class="notes-label">' + md(n.label).replace(/^<p>|<\/p>$/g, '') + '</span>' +
+            (n.at ? '<time>' + esc(new Date(n.at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })) + '</time>' : '') + '</div>' +
+            '<div class="prose">' + md(n.text) + '</div></section>';
+        }).join('') + '</article>';
+    }).join('') : '<p class="muted">Nothing matches “' + esc(q) + '”.</p>';
+  }
+  $('notes-filter').addEventListener('input', drawNotes);
+  $('notes-export').addEventListener('click', function () {
+    var text = (state.allNotes || []).map(function (l) {
+      return '# ' + l.title + '\n\n' + l.notes.map(function (n) { return '## ' + n.label + '\n\n' + n.text; }).join('\n\n');
+    }).join('\n\n') + '\n';
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: 'text/markdown' }));
+    a.download = (state.info ? state.info.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : 'lab') + '-notes.md';
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
 
   function renderStatus(st) {
     var text = !st || !st.runs ? '' : st.due_now ? '↻ Review due' : st.first_pass_run ? '✓ Solved on run ' + st.first_pass_run : plural(st.runs, 'run') + ' so far';

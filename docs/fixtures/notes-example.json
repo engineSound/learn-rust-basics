@@ -1,0 +1,8 @@
+{
+  "title": "fn main: where a program starts",
+  "notes": [
+    { "anchor": "idea", "label": "The idea", "text": "No class around `main`: closer to a Python script than to Java.", "at": "2026-10-20T09:00:00.000Z" },
+    { "anchor": "token:println!", "label": "`println!`", "text": "The `!` means macro. Like a compile-time `String.format` + print.\nWhy a macro? Variadic arguments, checked at compile time.", "at": "2026-10-20T09:05:00.000Z" },
+    { "anchor": "token:fn main()", "label": "`fn main()`", "text": "Exactly one per binary.", "at": "2026-10-20T09:06:00.000Z" }
+  ]
+}

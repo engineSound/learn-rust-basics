@@ -118,6 +118,47 @@ main { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
 .step-num { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--surface); border: 2px solid var(--accent); color: var(--accent); }
 .step-body { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
 .step-body > h2 { margin-bottom: 10px; }
+
+/* ---------- notes: the learner's own thoughts beside each step ---------- */
+.step-notes { grid-column: 2; min-width: 0; }
+.note-add { border: 1px dashed var(--line); background: none; color: var(--muted); border-radius: 10px; padding: 6px 12px; font: inherit; font-size: .85rem; cursor: pointer; }
+.note-add:hover { color: var(--accent); border-color: var(--accent); }
+.note-box .note-label, .note-box textarea { display: none; }
+.note-box.open .note-add { display: none; }
+.note-box.open .note-label { display: flex; }
+.note-box.open textarea { display: block; }
+.note-box.open { background: color-mix(in srgb, #f5c542 12%, var(--surface)); border: 1px solid color-mix(in srgb, #f5c542 40%, var(--line)); border-left: 3px solid #e0a800; border-radius: 10px; padding: 10px 12px; }
+.note-label { justify-content: space-between; gap: 8px; font-size: .78rem; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.note-label code { font-size: .95em; background: var(--soft); padding: 0 4px; border-radius: 4px; }
+.note-state { font-weight: 500; white-space: nowrap; }
+.note-text { width: 100%; min-height: 72px; resize: vertical; border: 0; background: transparent; color: var(--ink); font: .95rem/1.55 var(--sans); padding: 0; outline: none; }
+.note-text::placeholder { color: var(--muted); opacity: .8; }
+@media (min-width: 1300px) {
+  .lesson { max-width: 1200px; }
+  .step { grid-template-columns: 36px minmax(0, 1fr) 260px; }
+  .step-notes { grid-column: 3; position: sticky; top: 80px; align-self: start; }
+}
+/* Inside the dark anatomy panel */
+.an-note { padding: 0 18px 12px; }
+.anatomy .note-add { border-color: var(--vz-line); color: var(--vz-muted); }
+.anatomy .note-add:hover { color: var(--vz-hl); border-color: var(--vz-hl); }
+.anatomy .note-box.open { background: #1c1a10; border-color: #4a4120; border-left-color: #e0a800; }
+.anatomy .note-label { color: var(--vz-muted); }
+.anatomy .note-label code { background: #243140; color: var(--vz-ink); }
+.anatomy .note-text { color: var(--vz-ink); }
+.an-tok.has-note { position: relative; }
+.an-tok.has-note::after { content: ""; position: absolute; top: -2px; right: -3px; width: 6px; height: 6px; border-radius: 50%; background: #e0a800; }
+
+/* Notes page */
+.notes-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px; }
+.notes-tools { display: flex; gap: 8px; }
+.notes-tools input { font: inherit; padding: 7px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); min-width: 0; width: 14em; }
+.notes-lesson { display: grid; gap: 12px; }
+.notes-lesson header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.notes-item { border-left: 3px solid #e0a800; padding: 2px 0 2px 14px; }
+.notes-meta { display: flex; gap: 10px; align-items: baseline; font-size: .82rem; color: var(--muted); font-weight: 600; }
+.notes-label code { background: var(--soft); padding: 0 5px; border-radius: 5px; color: var(--ink); }
+.notes-item .prose p { margin: .3em 0; }
 .prose p, .prose li { max-width: 68ch; }
 .prose p { margin: .5em 0; }
 .prose code { background: var(--soft); padding: 1px 5px; border-radius: 5px; font-size: .88em; }
@@ -279,6 +320,7 @@ th { color: var(--muted); font-weight: 600; font-size: .8rem; }
   .step { grid-template-columns: 1fr; }
   .step-num, .step::before { display: none; }
   .step-body { padding: 16px; }
+  .step-notes { grid-column: 1; }
   .kbd-hint { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .next-btn.pulse { animation: none; } .ring-fg { transition: none; } html { scroll-behavior: auto; } }

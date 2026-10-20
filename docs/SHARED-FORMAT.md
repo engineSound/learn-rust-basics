@@ -158,6 +158,8 @@ Both apps serve the same JSON API, and `app/public/` (the browser UI) is
 | `POST /api/lessons/:slug/run` | code as plain text | run result (below) plus `stats`, `next` |
 | `POST /api/lessons/:slug/feedback` | `easy`, `right` or `hard` | `{ stats, next }` |
 | `GET /api/profile` | | `{ profile, markdown, next }` (section 4) |
+| `GET /api/notes` | | every lesson's notes: `[{ slug, title, notes: [{ anchor, label, text, at }] }]` (section 8) |
+| `GET` / `PUT /api/notes/:slug` | `PUT`: JSON `{ anchor, label, text }` | `{ notes }` for that lesson; an empty `text` deletes the note |
 | `GET /api/history` | | events, newest first, without `lesson_open` and without code |
 | `POST /api/snippet` | JSON `{ code }` | `{ output, ok, errors, timedOut }`: runs a ```run / ```predict block |
 | `POST /api/lessons/:slug/log` | JSON `{ kind: "hint" \| "predict", payload }` | `{ ok }`: records a hint shown or a quick-check answer |
@@ -381,3 +383,30 @@ A ~20 minute session:
 1. 3 min: one or two review items that are due
 2. 15 min: the current lesson's exercise, run → feedback → fix
 3. 2 min: one-line reflection ("what tripped me up"), saved as an event
+
+## 8. Notes (the learner's own)
+
+The learner can write a note next to any part of a lesson: each step (*The
+idea*, *Quick check*, *Your turn*) and each token of an ```anatomy block. Notes
+save as they type and are collected on the **Notes** page, in lesson order,
+with search and a Markdown download.
+
+Each lesson's notes are one Markdown file, `notes/<slug>.md` (override the
+folder with `LEARN_NOTES`). `notes/` is in `.gitignore` because the repos may
+be public; the learner can remove that line to version their notes.
+
+```
+# <lesson title>
+
+<!-- note {"anchor":"token:println!","at":"2026-10-20T09:05:00.000Z"} -->
+## `println!`
+
+Free text, any Markdown, several paragraphs.
+```
+
+- `anchor` says what the note is about: `idea`, `check`, `turn`, or
+  `token:<the token's text>` for an anatomy part. `label` is the `## ` line.
+- A new note goes at the end of its file; editing one keeps its place; empty
+  text deletes it, and a file with no notes left is removed.
+- Both apps parse `docs/fixtures/notes-example.md` into
+  `docs/fixtures/notes-example.json` and write it back byte for byte.

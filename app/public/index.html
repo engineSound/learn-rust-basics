@@ -16,6 +16,7 @@
     <a href="#today" data-view="today">Today</a>
     <a href="#learn" data-view="learn">Learn</a>
     <a href="#history" data-view="history">History</a>
+    <a href="#notes" data-view="notes">Notes</a>
     <a href="#profile" data-view="profile">Profile</a>
   </nav>
   <div class="top-stats"><span id="top-streak"></span><span id="top-progress"></span></div>
@@ -69,11 +70,13 @@
       <section class="step" id="step-idea">
         <div class="step-num">1</div>
         <div class="step-body"><h2 id="idea-heading">The idea</h2><div class="prose" id="ls-idea"></div></div>
+        <div class="step-notes" data-anchor="idea"></div>
       </section>
 
       <section class="step" id="step-check">
         <div class="step-num">2</div>
         <div class="step-body"><h2>Quick check</h2><div class="prose" id="ls-check"></div></div>
+        <div class="step-notes" data-anchor="check"></div>
       </section>
 
       <section class="step" id="step-turn">
@@ -100,6 +103,7 @@
           <div id="help"></div>
           <div id="after"></div>
         </div>
+        <div class="step-notes" data-anchor="turn"></div>
       </section>
     </article>
   </section>
@@ -108,6 +112,15 @@
     <h1>History</h1>
     <p class="lead">What you did, newest first. It stays on this computer.</p>
     <div id="history-list"></div>
+  </section>
+
+  <!-- Notes: everything the learner wrote, by lesson -->
+  <section class="view narrow" id="view-notes" hidden>
+    <header class="notes-head">
+      <div><h1>Your notes</h1><p class="lead">Your own words next to each lesson, all in one place. Saved as Markdown in <code>notes/</code>.</p></div>
+      <div class="notes-tools"><input type="search" id="notes-filter" placeholder="Search your notes" aria-label="Search your notes"><button type="button" class="btn" id="notes-export">Download .md</button></div>
+    </header>
+    <div id="notes-list"></div>
   </section>
 
   <section class="view narrow" id="view-profile" hidden>

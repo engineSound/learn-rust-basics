@@ -4,6 +4,7 @@
 mod history;
 mod json;
 mod lessons;
+mod notes;
 mod profile;
 mod tutor;
 mod runner;
@@ -22,6 +23,7 @@ struct Paths {
     data: PathBuf,
     events: PathBuf,
     progress: PathBuf,
+    notes: PathBuf,
     public: PathBuf,
 }
 
@@ -58,6 +60,8 @@ fn main() {
         data: root.join("data"),
         events: std::env::var_os("LEARN_EVENTS").map(PathBuf::from).unwrap_or_else(|| root.join("data").join("events.jsonl")),
         progress: std::env::var_os("LEARN_PROGRESS").map(PathBuf::from).unwrap_or_else(|| root.join("PROGRESS.md")),
+        // The learner's own notes, one Markdown file per lesson (gitignored: the repo may be public).
+        notes: std::env::var_os("LEARN_NOTES").map(PathBuf::from).unwrap_or_else(|| root.join("notes")),
         public: root.join("app").join("public"),
     }));
     let host = std::env::var("HOST").unwrap_or_else(|_| "127.0.0.1".into());
@@ -294,6 +298,30 @@ fn handle(req: &Request, paths: &Paths) -> Response {
         let body = json::parse(if req.body.trim().is_empty() { "{}" } else { &req.body }).unwrap_or(Json::Obj(vec![]));
         let code = body.get("code").and_then(Json::as_str).unwrap_or("").to_string();
         return runner::run_snippet(&code, &paths.data).map(|r| Response::json(200, r)).unwrap_or_else(|e| Response::error(500, &e.to_string()));
+    }
+    if method == "GET" && path == "/api/notes" {
+        return Response::json(200, notes::list(&paths.notes));
+    }
+    if let Some(slug) = path.strip_prefix("/api/notes/") {
+        let lesson = match lessons::load(&paths.lessons, slug) {
+            Ok(Some(l)) => l,
+            Ok(None) => return Response::error(404, "No such lesson"),
+            Err(e) => return Response::error(500, &e),
+        };
+        let list = |notes: Vec<notes::Note>| Response::json(200, Json::obj(vec![("notes", Json::Arr(notes.iter().map(notes::Note::to_json).collect()))]));
+        return match method {
+            "GET" => list(notes::read(&paths.notes, &lesson.slug).1),
+            "PUT" => {
+                let body = json::parse(if req.body.trim().is_empty() { "{}" } else { &req.body }).unwrap_or(Json::Obj(vec![]));
+                let field = |k: &str| body.get(k).and_then(Json::as_str).unwrap_or("").to_string();
+                let title = lesson.get("title").and_then(Json::as_str).unwrap_or(&lesson.slug).to_string();
+                match notes::save(&paths.notes, &lesson.slug, &title, &field("anchor"), &field("label"), &field("text"), &history::now_iso()) {
+                    Ok(notes) => list(notes),
+                    Err(e) => Response::error(400, &e),
+                }
+            }
+            _ => Response::error(405, "Method not allowed"),
+        };
     }
     if method == "GET" && path == "/api/history" {
         let events = history::read_events(&paths.events);
