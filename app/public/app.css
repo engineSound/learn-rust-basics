@@ -88,7 +88,15 @@ main { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
 /* ---------- Learn ---------- */
 .learn { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 32px; align-items: start; }
 .rail { position: sticky; top: 76px; max-height: calc(100vh - 96px); overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 8px; }
-.rail-head { width: 100%; border: 0; background: none; cursor: default; display: flex; justify-content: space-between; padding: 4px 10px 10px; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.rail-top { display: flex; align-items: flex-start; gap: 4px; }
+.rail-collapse { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted); font-size: 1rem; line-height: 1; cursor: pointer; }
+.rail-collapse:hover { color: var(--accent); border-color: var(--accent); }
+@media (min-width: 901px) {
+  .learn.rail-hidden { grid-template-columns: 46px minmax(0, 1fr); }
+  .rail-hidden .rail { padding: 0; border: 0; background: none; }
+  .rail-hidden .rail-head, .rail-hidden .outline { display: none; }
+}
+.rail-head { flex: 1; min-width: 0; width: 100%; border: 0; background: none; cursor: default; display: flex; justify-content: space-between; padding: 4px 10px 10px; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .outline, .ol-kids { list-style: none; margin: 0; padding: 0; }
 .ol-item { display: grid; grid-template-columns: 26px minmax(0, 1fr) 18px; gap: 8px; align-items: start; padding: 8px 10px; border-radius: 10px; color: var(--ink); text-decoration: none; }
 .ol-item:hover, .ol-kid:hover { background: var(--soft); }
@@ -257,6 +265,7 @@ th { color: var(--muted); font-weight: 600; font-size: .8rem; }
   .rail-head { cursor: pointer; padding: 10px; }
   .rail-head::after { content: "▾"; margin-left: 8px; }
   .rail .outline { display: none; }
+  .rail-collapse { display: none; }
   .rail.open .outline { display: block; padding-bottom: 8px; }
   .path { grid-template-columns: 1fr; }
   .top { gap: 12px; flex-wrap: wrap; }

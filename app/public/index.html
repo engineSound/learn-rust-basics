@@ -52,7 +52,10 @@
   <!-- Learn: outline + one lesson in three steps -->
   <section class="view learn" id="view-learn" hidden>
     <aside class="rail">
-      <button type="button" class="rail-head" id="rail-toggle" aria-expanded="false"><span id="rail-name">Lessons</span><span id="rail-count"></span></button>
+      <div class="rail-top">
+        <button type="button" class="rail-head" id="rail-toggle" aria-expanded="false"><span id="rail-name">Lessons</span><span id="rail-count"></span></button>
+        <button type="button" class="rail-collapse" id="rail-collapse" aria-controls="outline" aria-expanded="true" title="Hide the lesson list">«</button>
+      </div>
       <ol class="outline" id="outline"></ol>
     </aside>
 

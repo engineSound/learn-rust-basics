@@ -160,6 +160,19 @@
     rail.classList.toggle('open', open);
     $('rail-toggle').setAttribute('aria-expanded', String(open));
   });
+  // Wide screens: the lesson list can be folded away (remembered); narrow screens use the toggle above.
+  function setRailHidden(hidden) {
+    $('view-learn').classList.toggle('rail-hidden', hidden);
+    var b = $('rail-collapse');
+    b.textContent = hidden ? '»' : '«';
+    b.title = hidden ? 'Show the lesson list' : 'Hide the lesson list';
+    b.setAttribute('aria-expanded', String(!hidden));
+    store('railHidden', hidden);
+  }
+  $('rail-collapse').addEventListener('click', function () {
+    setRailHidden(!$('view-learn').classList.contains('rail-hidden'));
+  });
+  setRailHidden(load('railHidden', true));
   function renderOutline() {
     var c = cores();
     document.querySelector('.rail').classList.remove('open');
